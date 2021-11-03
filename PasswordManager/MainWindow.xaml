@@ -1,0 +1,133 @@
+﻿<Window x:Class="PasswordManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Password Manager" Height="1030" Width="2030" MinHeight="550" MinWidth="900"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="#e0e0e0"
+        FontFamily="{DynamicResource MaterialDesignFont}" Icon="logo.ico">
+    <Window.Resources>
+        <DropShadowEffect x:Key="z-depth1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC" RenderingBias="Quality"/>
+        <DropShadowEffect x:Key="z-depth2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>
+        <DropShadowEffect x:Key="z-depth3" BlurRadius="14" ShadowDepth="4.5" Direction="270" Color="#BBBBBB"/>
+        <DropShadowEffect x:Key="z-depth4" BlurRadius="25" ShadowDepth="8" Direction="270" Color="#BBBBBB"/>
+        <DropShadowEffect x:Key="z-depth5" BlurRadius="35" ShadowDepth="13" Direction="270" Color="#BBBBBB"/>
+
+        <Style x:Key="gButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FFF5F5F5"/>
+            <Setter Property="BorderBrush" Value="#FFDCDCDC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#FF666666"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8,7"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        CornerRadius="1" 
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!--TODO: Set the right colors-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkGray" />
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <!--Some setters here-->
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <!--HomePage-->
+        <Grid Background="#a9ededed" Name="homepage">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe" Effect="{DynamicResource z-depth1}"></Grid>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe">
+                <StackPanel Margin="10" Background="#fefefe" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Password Manager" FontWeight="DemiBold" FontSize="24" Foreground="#424242" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Secure place to save all your passwords" Margin="0,5,0,10" FontSize="13" Foreground="#9E9E9E" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <Grid>
+                        <Button x:Name="btn_new_package" Content="New Package" HorizontalAlignment="Center" Margin="150,10,10,10" VerticalAlignment="Bottom" Background="#FF3F51B5" BorderBrush="#FF3F51B5" Width="120" Click="btn_new_package_Click"/>
+                        <Button x:Name="btn_load_package" Content="Load Package" HorizontalAlignment="Center" Margin="10,10,150,10" VerticalAlignment="Bottom" Background="#757575" BorderBrush="#757575" Width="120" Click="btn_load_package_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!--Access Form-->
+        <Grid Background="#a9ededed" Name="access_form" d:IsHidden="True">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe" Effect="{DynamicResource z-depth1}"></Grid>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe">
+                <StackPanel Margin="10" Background="#fefefe" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Access" FontWeight="DemiBold" FontSize="24" Foreground="#424242" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Please insert password to access to your passwords archive" Margin="0,5,0,0" FontSize="13" Foreground="#9E9E9E" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <Grid Margin="0,40,0,10">
+                        <materialDesign:PackIcon Kind="Key" Height="18" Width="18" VerticalAlignment="Center" Foreground="{Binding ElementName=access_form_password, Path=BorderBrush}"/>
+                        <PasswordBox x:Name="access_form_password" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" materialDesign:HintAssist.Hint="Password" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" materialDesign:ValidationAssist.UsePopup="True" KeyUp="access_form_password_KeyUp"></PasswordBox>
+                    </Grid>
+                    <Button x:Name="access_form_btn_decrypt" Content="Decrypt" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Bottom" Background="#757575" BorderBrush="#757575" Width="85" Click="access_form_btn_decrypt_Click"/>
+                </StackPanel>
+                <Button x:Name="access_form_back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Background="White" BorderBrush="White" Style="{DynamicResource gButton}" Click="access_form_back_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="24" Width="24" VerticalAlignment="Center" Foreground="#FF767676"/>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <!--Create Form-->
+        <Grid Background="#a9ededed" Visibility="Visible" Name="create_form" d:IsHidden="True">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe" Effect="{DynamicResource z-depth1}"></Grid>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe">
+                <StackPanel Margin="10" Background="#fefefe" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="New Package" FontWeight="DemiBold" FontSize="24" Foreground="#424242" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Insert requested data and create new passwords package" Margin="0,5,0,0" FontSize="13" Foreground="#9E9E9E" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+                    <Grid Margin="0,40,0,10">
+                        <materialDesign:PackIcon Kind="File" Height="18" Width="18" VerticalAlignment="Center" Foreground="{Binding ElementName=create_form_name, Path=BorderBrush}"/>
+                        <TextBox Name="create_form_name" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" materialDesign:HintAssist.Hint="Name" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"></TextBox>
+                    </Grid>
+                    <Grid Margin="0,0,0,10">
+                        <materialDesign:PackIcon Kind="Key" Height="18" Width="18" VerticalAlignment="Center" Foreground="{Binding ElementName=create_form_password, Path=BorderBrush}"/>
+                        <PasswordBox Name="create_form_password" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" materialDesign:HintAssist.Hint="Password" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"></PasswordBox>
+                    </Grid>
+                    <Button x:Name="create_form_btn_add" Content="Create" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Bottom" Background="#757575" BorderBrush="#757575" Width="80" Click="create_form_btn_add_Click"/>
+                </StackPanel>
+                <Button x:Name="create_form_back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Background="White" BorderBrush="White" Style="{DynamicResource gButton}" Click="create_form_back_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="24" Width="24" VerticalAlignment="Center" Foreground="#FF767676"/>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid Background="#a9ededed" Visibility="Visible" x:Name="alert_form" d:IsHidden="True">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe" Effect="{DynamicResource z-depth1}"/>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="400" Background="#fefefe">
+                <StackPanel Margin="10" Background="#fefefe" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="File Corrupted" FontWeight="DemiBold" FontSize="24" Foreground="#424242" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Text="The current file appears to be corrupt and can not be decrypted" Margin="0,5,0,0" FontSize="13" Foreground="#9E9E9E" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <Button x:Name="alert_form_close" Content="Close" HorizontalAlignment="Center" Margin="10,20,10,10" VerticalAlignment="Bottom" Background="#FFF44336" BorderBrush="#FFF44336" Width="80" Click="alert_form_close_Click"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
